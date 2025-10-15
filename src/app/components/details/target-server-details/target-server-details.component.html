@@ -1,30 +1,52 @@
 <div class="target-server-details">
   <div class="detail-item">
-    <!-- <span class="label">🌐 Host:</span> -->
     <span class="label">Host:</span>
     <span class="value">{{ details?.host || 'N/A' }}</span>
   </div>
   
   <div class="detail-item">
-    <!-- <span class="label">☁️ Ambientes:</span> -->
-    <span class="label">Ambientes:</span>
+    <span class="label">Ambientes ({{ details?.environments?.length || 0 }}):</span>
     <div class="environments">
       <span *ngFor="let env of details?.environments" class="env-chip">
         {{ env }}
       </span>
+      <div *ngIf="!details?.environments || details?.environments?.length === 0" class="no-environments">
+        Ningún ambiente configurado
+      </div>
     </div>
   </div>
   
   <div class="detail-item apis-section">
-    <!-- <span class="label">🔗 APIs Asociadas ({{ details?.associatedApis?.length || 0 }}):</span> -->
-     <span class="label">APIs ({{ details?.associatedApis?.length || 0 }}):</span>
-    <div class="apis-container">
-      <div *ngFor="let api of details?.associatedApis" class="api-chip">
-        {{ api }}
-      </div>
-      <div *ngIf="!details?.associatedApis || details?.associatedApis?.length === 0" class="no-apis">
-        Ninguna API asociada
+    <span class="label">APIs por Ambiente:</span>
+    
+    <!-- Show APIs grouped by environment if available -->
+    <div *ngIf="details?.apisByEnvironment && hasApisInEnvironments(); else showFlatApis" class="apis-by-environment">
+      <div *ngFor="let env of details?.environments" class="environment-apis">
+        <div class="environment-header">
+          <span class="env-chip">{{ env }}</span>
+          <span class="api-count">({{ getApisForEnvironment(env)?.length || 0 }})</span>
+        </div>
+        <div class="apis-container">
+          <div *ngFor="let api of getApisForEnvironment(env)" class="api-chip">
+            {{ api }}
+          </div>
+          <div *ngIf="!getApisForEnvironment(env) || getApisForEnvironment(env)?.length === 0" class="no-apis">
+            Ninguna API en este ambiente
+          </div>
+        </div>
       </div>
     </div>
+
+    <!-- Fallback to flat list if grouped data is not available -->
+    <ng-template #showFlatApis>
+      <div class="apis-container">
+        <div *ngFor="let api of details?.associatedApis" class="api-chip">
+          {{ api }}
+        </div>
+        <div *ngIf="!details?.associatedApis || details?.associatedApis?.length === 0" class="no-apis">
+          Ninguna API asociada
+        </div>
+      </div>
+    </ng-template>
   </div>
 </div>

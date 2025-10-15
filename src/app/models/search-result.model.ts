@@ -46,6 +46,7 @@ export interface SearchResultDetails {
   // Para Target Servers
   host?: string;
   associatedApis?: string[];
+  apisByEnvironment?: { [environment: string]: string[] };
 }
 
 export interface EnrichedApp {

@@ -1,5 +1,23 @@
 @import '../shared-details.scss';
 
+// Apps section styles
+.product-apps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.product-app-chip {
+  @extend .unified-chip-accent;
+  @extend .unified-chip-sm;
+}
+
+.no-product-apps {
+  @extend .no-data;
+}
+
+// Proxies section styles
 .product-proxies-section {
   flex-direction: column;
   align-items: flex-start;

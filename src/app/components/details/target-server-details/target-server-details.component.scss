@@ -14,8 +14,8 @@
 }
 
 .api-chip {
-  @extend .unified-chip;
-  @extend .unified-chip-lg;
+  @extend .unified-chip-accent;
+  @extend .unified-chip-sm;
   cursor: pointer;
   word-break: break-word;
 }
@@ -24,13 +24,63 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  width: 100%;
 }
 
 .env-chip {
-  @extend .unified-chip;
+  @extend .unified-chip-accent;
   @extend .unified-chip-sm;
 }
 
-.no-apis {
+.no-apis, .no-environments {
   @extend .no-data;
+}
+
+// APIs by environment section - homologated with API proxy styles
+.apis-by-environment {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.environment-apis {
+  @extend .unified-card;
+}
+
+.environment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+  
+  .env-chip {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    color: #1e40af;
+    border: 1px solid #3b82f6;
+  }
+  
+  .api-count {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 600;
+  }
+}
+
+// Override the apis-container inside environment cards
+.environment-apis .apis-container {
+  margin-top: 0;
+  
+  .api-chip {
+    @extend .unified-chip-accent;
+    @extend .unified-chip-sm;
+    cursor: pointer;
+    word-break: break-word;
+  }
 }
