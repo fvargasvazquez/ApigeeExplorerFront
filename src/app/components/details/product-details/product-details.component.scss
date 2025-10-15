@@ -1,11 +1,17 @@
 @import '../shared-details.scss';
 
-// Apps section styles
+// Apps section styles - positioned at the left
+.apps-section {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .product-apps {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 8px;
+  width: 100%;
 }
 
 .product-app-chip {

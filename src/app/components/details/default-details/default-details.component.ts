@@ -6,15 +6,7 @@ import { SearchResult } from '../../../models';
   selector: 'app-default-details',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="default-details">
-      <div class="detail-item">
-        <!-- <span class="label">🆔 ID:</span> -->
-        <span class="label">ID:</span>
-        <span class="value">{{ result?.id }}</span>
-      </div>
-    </div>
-  `,
+  templateUrl: './default-details.component.html',
   styleUrl: './default-details.component.scss'
 })
 export class DefaultDetailsComponent {
