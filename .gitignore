@@ -1,0 +1,22 @@
+# Node modules
+/node_modules/
+
+# Compiled output
+/dist/
+/out-tsc/
+
+# Angular build artifacts
+/tmp/
+/.angular/
+
+# IDEs and editors
+/.idea/
+/.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Environment files
+/src/environments/environment*.ts
+
+# System files
+.DS_Stor_
