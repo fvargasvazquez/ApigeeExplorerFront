@@ -1,0 +1,91 @@
+<!-- Hero Section -->
+<div class="hero-section">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">
+        <mat-icon class="hero-icon">explore</mat-icon>
+        Apigee Explorer
+      </h1>
+      <!-- <p class="hero-subtitle">Explora y analiza tus componentes de Apigee de manera intuitiva</p> -->
+      <p class="hero-subtitle">Explora componentes de Apigee</p>
+    </div>
+  </div>
+  
+  <!-- Animated Background -->
+  <div class="hero-bg">
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+      <div class="shape shape-5"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Environment Selection -->
+<div class="selection-section">
+  <div class="selection-content">
+    <div class="section-header">
+      <mat-icon class="section-icon">cloud</mat-icon>
+      <!-- <h2>Selecciona tu Entorno</h2> -->
+      <h2>Selecciona tu Planeta</h2>
+      <!-- <p>Elige el entorno de Apigee que deseas explorar</p> -->
+      <p>Elige el planeta de Apigee que deseas explorar</p>
+    </div>
+    
+    <div class="environment-grid">
+      <div *ngFor="let env of environments; let i = index" 
+           class="environment-card"
+           [style.animation-delay.ms]="i * 200"
+           (click)="selectEnvironment(env)">
+        
+        <div class="card-background" [ngClass]="'bg-' + env.toLowerCase()"></div>
+        
+        <div class="card-content">
+          <div class="card-icon">
+            <mat-icon>{{ getEnvironmentIcon(env) }}</mat-icon>
+          </div>
+          
+          <div class="card-info">
+            <h3 class="card-title">{{ env }}</h3>
+            <p class="card-description">{{ getEnvironmentDescription(env) }}</p>
+            
+            <div class="card-stats">
+              <div class="stat-item">
+                <mat-icon>api</mat-icon>
+                <span>APIs</span>
+              </div>
+              <div class="stat-item">
+                <mat-icon>apps</mat-icon>
+                <span>Apps</span>
+              </div>
+              <div class="stat-item">
+                <mat-icon>person</mat-icon>
+                <span>Devs</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-action">
+            <button mat-fab class="explore-btn" [ngClass]="'btn-' + env.toLowerCase()">
+              <mat-icon>arrow_forward</mat-icon>
+            </button>
+          </div>
+        </div>
+        
+        <div class="card-overlay">
+          <div class="overlay-content">
+            <mat-icon class="overlay-icon">explore</mat-icon>
+            <span class="overlay-text">Explorar {{ env }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Features Section - Compacta
+    <div class="features-section-compact">
+      <p class="features-subtitle">Explora APIs, Apps, Developers, Products, Target Servers y más</p>
+    </div> -->
+  </div>
+</div>

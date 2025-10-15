@@ -1,0 +1,130 @@
+@import "../shared-details.scss";
+
+.proxy-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.proxy-product-chip {
+  @extend .unified-chip-accent;
+  @extend .unified-chip-sm;
+}
+
+.proxy-environments-section {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.proxy-environments-container {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.proxy-env-card {
+  @extend .unified-card;
+}
+
+.proxy-env-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.proxy-env-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.proxy-env-basepath {
+  @extend .unified-chip;
+  @extend .unified-chip-sm;
+}
+
+.proxy-env-revision {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  line-height: 1;
+  background-color: #fecaca !important;
+  color: #000000 !important;
+  font-weight: 600;
+  border: 1px solid #ef4444 !important;
+  white-space: nowrap;
+}
+
+.proxy-env-label {
+  font-weight: 500;
+  color: #64748b;
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.proxy-env-product-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.proxy-env-product-chip {
+  @extend .unified-chip-accent;
+  @extend .unified-chip-sm;
+}
+
+.proxy-env-target-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.proxy-env-target-chip {
+  @extend .unified-chip;
+  @extend .unified-chip-sm;
+}
+
+.proxy-flows-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.proxy-flow-card {
+  @extend .unified-card;
+  padding: 12px;
+}
+
+.proxy-flow-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.proxy-flow-method {
+  // Los métodos HTTP usan las clases del sistema unificado
+}
+
+.proxy-flow-path {
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  color: #374151;
+}
+
+.no-proxy-flows,
+.no-proxy-environments {
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 0.9rem;
+  padding: 8px 0;
+}

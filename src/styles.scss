@@ -1,0 +1,192 @@
+/* Global Styles */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body { 
+  height: 100vh; 
+  width: 100vw;
+  margin: 0; 
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Responsive Typography */
+html {
+  font-size: 16px; /* Base font size */
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 1200px) {
+  html {
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1600px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+/* Custom Material Theme Colors */
+:root {
+  --primary-color: #ff4300;
+  --primary-light: #ff5714;
+  --primary-dark: #eb2f00;
+  --accent-color: #ff6b35;
+  --warn-color: #f44336;
+  --success-color: #4caf50;
+  --info-color: #2196f3;
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-5 { margin-top: 3rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mb-5 { margin-bottom: 3rem; }
+
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+.p-5 { padding: 3rem; }
+
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+
+/* Responsive Utilities */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.container-fluid {
+  width: 100%;
+  padding: 0 1rem;
+}
+
+/* Display utilities */
+.d-none { display: none !important; }
+.d-block { display: block !important; }
+.d-flex { display: flex !important; }
+.d-grid { display: grid !important; }
+
+/* Responsive display utilities */
+@media (max-width: 576px) {
+  .d-sm-none { display: none !important; }
+  .d-sm-block { display: block !important; }
+  .d-sm-flex { display: flex !important; }
+}
+
+@media (max-width: 768px) {
+  .d-md-none { display: none !important; }
+  .d-md-block { display: block !important; }
+  .d-md-flex { display: flex !important; }
+}
+
+@media (max-width: 992px) {
+  .d-lg-none { display: none !important; }
+  .d-lg-block { display: block !important; }
+  .d-lg-flex { display: flex !important; }
+}
+
+/* Flex utilities */
+.flex-column { flex-direction: column !important; }
+.flex-row { flex-direction: row !important; }
+.justify-center { justify-content: center !important; }
+.justify-between { justify-content: space-between !important; }
+.justify-around { justify-content: space-around !important; }
+.align-center { align-items: center !important; }
+.align-start { align-items: flex-start !important; }
+.align-end { align-items: flex-end !important; }
+
+/* Gap utilities */
+.gap-1 { gap: 0.25rem !important; }
+.gap-2 { gap: 0.5rem !important; }
+.gap-3 { gap: 1rem !important; }
+.gap-4 { gap: 1.5rem !important; }
+.gap-5 { gap: 3rem !important; }
+
+/* Responsive padding and margins */
+@media (max-width: 576px) {
+  .p-sm-1 { padding: 0.25rem !important; }
+  .p-sm-2 { padding: 0.5rem !important; }
+  .p-sm-3 { padding: 1rem !important; }
+  .px-sm-1 { padding-left: 0.25rem !important; padding-right: 0.25rem !important; }
+  .px-sm-2 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+  .px-sm-3 { padding-left: 1rem !important; padding-right: 1rem !important; }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  .environment-card {
+    min-height: 44px; /* Minimum touch target size */
+  }
+  
+  button, .clickable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .hero-icon, .card-icon {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}

@@ -1,0 +1,57 @@
+<div class="api-proxy-details">
+  <div class="detail-item proxy-environments-section">
+    <!-- <span class="label">🌍 Ambientes y Endpoints ({{ details?.enrichedProxyEnvironments?.length || 0 }}):</span> -->
+    <span class="label">Ambientes y Endpoints ({{ details?.enrichedProxyEnvironments?.length || 0 }}):</span>
+    <div class="proxy-environments-container">
+      <div *ngFor="let env of details?.enrichedProxyEnvironments" class="proxy-env-card">
+        <div class="proxy-env-header">
+          <span class="proxy-env-name">{{ env.ambiente }}</span>
+          <span class="proxy-env-basepath">{{ env.basePath }}</span>
+          <span class="proxy-env-revision" *ngIf="env.revision">Rev: {{ env.revision }}</span>
+        </div>
+        
+        <div class="proxy-env-products" *ngIf="getEnvironmentProducts(env).length > 0">
+          <span class="proxy-env-label">Productos:</span>
+          <div class="proxy-env-product-chips">
+            <span *ngFor="let product of getEnvironmentProducts(env)" class="proxy-env-product-chip">
+              {{ product }}
+            </span>
+          </div>
+        </div>
+
+        <div class="proxy-env-targets" *ngIf="env.targetServers && env.targetServers.length > 0">
+          <!-- <span class="proxy-env-label">🎯 Target Servers:</span> -->
+          <span class="proxy-env-label">Target Servers:</span>
+          <div class="proxy-env-target-chips">
+            <span *ngFor="let target of env.targetServers" class="proxy-env-target-chip">
+              {{ target }}
+            </span>
+          </div>
+        </div>
+
+        <div class="proxy-env-flows" *ngIf="env.flows && env.flows.length > 0">
+          <!-- <span class="proxy-env-label">🔗 Endpoints ({{ env.flows.length }}):</span> -->
+          <span class="proxy-env-label">Endpoints ({{ env.flows.length }}):</span>
+          <div class="proxy-flows-container">
+            <div *ngFor="let flow of env.flows" class="proxy-flow-card">
+              <div class="proxy-flow-header">
+                <span class="proxy-flow-method" [class]="'method-' + flow.method.toLowerCase()">
+                  {{ flow.method }}
+                </span>
+                <span class="proxy-flow-path">{{ flow.path }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div *ngIf="!env.flows || env.flows.length === 0" class="no-proxy-flows">
+          No hay endpoints configurados
+        </div>
+      </div>
+      
+      <div *ngIf="!details?.enrichedProxyEnvironments || details?.enrichedProxyEnvironments?.length === 0" class="no-proxy-environments">
+        No hay ambientes configurados
+      </div>
+    </div>
+  </div>
+</div>

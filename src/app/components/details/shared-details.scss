@@ -1,0 +1,161 @@
+// Shared styles for detail components
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 600;
+  color: #374151;
+  min-width: 120px;
+}
+
+.value {
+  color: #6b7280;
+  word-break: break-word;
+}
+
+// 🎨 MODERN UNIFIED CHIP SYSTEM
+// Base chip style - elegant and minimal
+.unified-chip {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
+  margin: 2px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.unified-chip:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Accent variant for important items
+.unified-chip-accent {
+  background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
+  color: #c2410c;
+  border: 1px solid #fb923c;
+}
+
+.unified-chip-accent:hover {
+  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+}
+
+// Small variant for compact spaces
+.unified-chip-sm {
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  border-radius: 16px;
+}
+
+// Large variant for prominent items
+.unified-chip-lg {
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  border-radius: 24px;
+}
+
+// Status styles with unified design
+.status-active {
+  @extend .unified-chip;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #166534;
+  border: 1px solid #22c55e;
+}
+
+.status-inactive {
+  @extend .unified-chip;
+  background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+  color: #991b1b;
+  border: 1px solid #ef4444;
+}
+
+.status-unknown {
+  @extend .unified-chip;
+  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  color: #6b7280;
+  border: 1px solid #9ca3af;
+}
+
+// HTTP Method styles with unified design
+.method-chip {
+  @extend .unified-chip-sm;
+  min-width: 45px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.method-get {
+  @extend .method-chip;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #1e40af;
+  border: 1px solid #3b82f6;
+}
+
+.method-post {
+  @extend .method-chip;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #166534;
+  border: 1px solid #22c55e;
+}
+
+.method-put {
+  @extend .method-chip;
+  background: linear-gradient(135deg, #fefbeb 0%, #fef3c7 100%);
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+.method-delete {
+  @extend .method-chip;
+  background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
+  color: #991b1b;
+  border: 1px solid #ef4444;
+}
+
+.method-patch {
+  @extend .method-chip;
+  background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+  color: #7c3aed;
+  border: 1px solid #a855f7;
+}
+
+// Card styles with unified design
+.unified-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.unified-card:hover {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+// No data message
+.no-data {
+  color: #9ca3af;
+  font-style: italic;
+  font-size: 0.9rem;
+  padding: 8px 0;
+}

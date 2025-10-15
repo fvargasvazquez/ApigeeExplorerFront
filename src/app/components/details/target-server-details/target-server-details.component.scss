@@ -1,0 +1,36 @@
+@import '../shared-details.scss';
+
+.apis-section {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.apis-container {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.api-chip {
+  @extend .unified-chip;
+  @extend .unified-chip-lg;
+  cursor: pointer;
+  word-break: break-word;
+}
+
+.environments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.env-chip {
+  @extend .unified-chip;
+  @extend .unified-chip-sm;
+}
+
+.no-apis {
+  @extend .no-data;
+}

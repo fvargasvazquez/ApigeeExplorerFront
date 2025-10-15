@@ -1,0 +1,25 @@
+@import '../shared-details.scss';
+
+.products-section {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.products-container {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.product-chip {
+  @extend .unified-chip-accent;
+  @extend .unified-chip-lg;
+  cursor: default;
+  word-break: break-word;
+}
+
+.no-products {
+  @extend .no-data;
+}

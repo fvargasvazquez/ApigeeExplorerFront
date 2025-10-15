@@ -1,0 +1,110 @@
+<div class="modern-search-container">
+  <!-- Header -->
+  <div class="search-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <!-- <h1>🔍 Buscar en {{ environment.toUpperCase() }}</h1> -->
+    <h1>Buscar en {{ environment.toUpperCase() }}</h1>
+  </div>
+
+  <!-- Search Controls -->
+  <div class="search-controls">
+    <mat-form-field appearance="outline" class="type-selector">
+      <mat-label>Tipo de Componente</mat-label>
+      <mat-select [formControl]="componentTypeControl" required>
+        <mat-option *ngFor="let type of componentTypes" [value]="type.value">
+          {{ type.icon }} {{ type.displayName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Buscar componente...</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Nombre del componente">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Results -->
+  <div class="results-section" *ngIf="searchResults.length > 0">
+    <div class="results-header">
+      <!-- <h2>📊 Resultados ({{ searchResults.length }})</h2> -->
+      <h2>Resultados ({{ searchResults.length }})</h2>
+    </div>
+    
+    <div class="results-grid">
+      <div *ngFor="let result of searchResults" class="modern-card">
+        <div class="card-header">
+          <div class="card-icon">{{ getComponentIcon(result.componentType) }}</div>
+          <div class="card-info">
+            <h3>{{ result.name }}</h3>
+            <span class="card-type">{{ getComponentDisplayName(result.componentType) }}</span>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <!-- Target Server Details -->
+          <ng-container *ngIf="result.componentType === 'TargetServer'">
+            <app-target-server-details [details]="result.details"></app-target-server-details>
+          </ng-container>
+
+          <!-- API Proxy Details -->
+          <ng-container *ngIf="result.componentType === 'ApiProxy'">
+            <app-api-proxy-details [details]="result.details"></app-api-proxy-details>
+          </ng-container>
+
+          <!-- App Details -->
+          <ng-container *ngIf="result.componentType === 'App'">
+            <app-app-details [details]="result.details"></app-app-details>
+          </ng-container>
+
+          <!-- Developer Details -->
+          <ng-container *ngIf="result.componentType === 'Developer'">
+            <app-developer-details [details]="result.details"></app-developer-details>
+          </ng-container>
+
+          <!-- Product Details -->
+          <ng-container *ngIf="result.componentType === 'Product'">
+            <app-product-details [details]="result.details"></app-product-details>
+          </ng-container>
+
+          <!-- Keystore Details -->
+          <ng-container *ngIf="result.componentType === 'Keystore'">
+            <app-keystore-details [details]="result.details"></app-keystore-details>
+          </ng-container>
+
+          <!-- Reference Details -->
+          <ng-container *ngIf="result.componentType === 'Reference'">
+            <app-reference-details [details]="result.details"></app-reference-details>
+          </ng-container>
+
+          <!-- Default Details -->
+          <ng-container *ngIf="!['TargetServer', 'ApiProxy', 'App', 'Developer', 'Product', 'Keystore', 'Reference'].includes(result.componentType)">
+            <app-default-details [result]="result"></app-default-details>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <mat-icon class="spinning">hourglass_empty</mat-icon>
+    <p>Buscando...</p>
+  </div>
+
+  <div class="empty-state" *ngIf="!componentTypeControl.value">
+    <mat-icon>tune</mat-icon>
+    <p>Selecciona un tipo de componente</p>
+  </div>
+
+  <div class="empty-state" *ngIf="componentTypeControl.value && searchControl.value && searchResults.length === 0 && !isLoading">
+    <mat-icon>search_off</mat-icon>
+    <p>No se encontraron resultados para "{{ searchControl.value }}"</p>
+  </div>
+
+  <div class="error-state" *ngIf="errorMessage">
+    <mat-icon>error</mat-icon>
+    <p>{{ errorMessage }}</p>
+  </div>
+</div>

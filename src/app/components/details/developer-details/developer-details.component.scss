@@ -1,0 +1,87 @@
+@import '../shared-details.scss';
+
+.apps-section {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.apps-container {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.app-card {
+  @extend .unified-card;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.app-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.app-status {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.app-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.app-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 0.8rem;
+}
+
+.products-detail {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.app-label {
+  font-weight: 500;
+  color: #64748b;
+  min-width: 80px;
+}
+
+.app-value {
+  color: #334155;
+  word-break: break-word;
+  text-align: right;
+}
+
+.app-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.app-product-chip {
+  @extend .unified-chip-accent;
+  @extend .unified-chip-sm;
+}
+
+.no-apps {
+  @extend .no-data;
+}

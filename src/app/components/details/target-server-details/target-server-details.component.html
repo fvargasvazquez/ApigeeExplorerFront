@@ -1,0 +1,30 @@
+<div class="target-server-details">
+  <div class="detail-item">
+    <!-- <span class="label">🌐 Host:</span> -->
+    <span class="label">Host:</span>
+    <span class="value">{{ details?.host || 'N/A' }}</span>
+  </div>
+  
+  <div class="detail-item">
+    <!-- <span class="label">☁️ Ambientes:</span> -->
+    <span class="label">Ambientes:</span>
+    <div class="environments">
+      <span *ngFor="let env of details?.environments" class="env-chip">
+        {{ env }}
+      </span>
+    </div>
+  </div>
+  
+  <div class="detail-item apis-section">
+    <!-- <span class="label">🔗 APIs Asociadas ({{ details?.associatedApis?.length || 0 }}):</span> -->
+     <span class="label">APIs ({{ details?.associatedApis?.length || 0 }}):</span>
+    <div class="apis-container">
+      <div *ngFor="let api of details?.associatedApis" class="api-chip">
+        {{ api }}
+      </div>
+      <div *ngIf="!details?.associatedApis || details?.associatedApis?.length === 0" class="no-apis">
+        Ninguna API asociada
+      </div>
+    </div>
+  </div>
+</div>

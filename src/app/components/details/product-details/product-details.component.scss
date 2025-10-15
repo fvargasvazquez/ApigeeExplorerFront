@@ -1,0 +1,81 @@
+@import '../shared-details.scss';
+
+.product-proxies-section {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.product-proxies-container {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-proxy-card {
+  @extend .unified-card;
+}
+
+.product-proxy-header {
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #7dd3fc;
+}
+
+.product-proxy-name {
+  font-weight: 600;
+  color: #0c4a6e;
+  font-size: 0.9rem;
+}
+
+.product-proxy-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-proxy-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+}
+
+.product-proxy-label {
+  font-weight: 500;
+  color: #0369a1;
+  margin-bottom: 4px;
+}
+
+.proxy-environments, .proxy-basepaths, .proxy-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.proxy-env-chip {
+  @extend .unified-chip-accent;
+  @extend .unified-chip-sm;
+}
+
+.proxy-basepath-chip {
+  @extend .unified-chip;
+  @extend .unified-chip-sm;
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  color: #166534;
+  border: 1px solid #22c55e;
+}
+
+.proxy-target-chip {
+  @extend .unified-chip;
+  @extend .unified-chip-sm;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #1e40af;
+  border: 1px solid #3b82f6;
+}
+
+.no-product-proxies {
+  @extend .no-data;
+}

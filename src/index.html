@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Apigee Explorer V2</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes">
+  <meta name="theme-color" content="#ff4300">
+  <meta name="description" content="Explora y analiza tus componentes de Apigee de manera intuitiva">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Apigee Explorer">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Preconnect para mejorar velocidad -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  
+  <!-- Preload fuentes críticas -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback para navegadores sin JS -->
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </noscript>
+  
+  <!-- Loading spinner inline para mostrar algo inmediatamente -->
+  <style>
+    .initial-loader {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-family: 'Roboto', sans-serif;
+    }
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #ff6b35;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="mat-typography">
+  <app-root>
+    <!-- Loading inicial -->
+    <div class="initial-loader">
+      <div class="spinner"></div>
+      <p>Cargando Apigee Explorer...</p>
+    </div>
+  </app-root>
+</body>
+</html>
