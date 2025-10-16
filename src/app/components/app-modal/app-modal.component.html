@@ -1,0 +1,30 @@
+<div class="modal-overlay" *ngIf="modalData.isOpen" (click)="closeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ modalData.appName }}</h2>
+      <button mat-icon-button (click)="closeModal()" class="close-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    
+    <div class="modal-content">
+      <div *ngIf="isLoading" class="loading-state">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Cargando detalles de la aplicación...</p>
+      </div>
+      
+      <div *ngIf="errorMessage" class="error-state">
+        <mat-icon>error</mat-icon>
+        <p>{{ errorMessage }}</p>
+      </div>
+      
+      <div *ngIf="appDetails && !isLoading" class="app-content">
+        <app-app-details [details]="appDetails" [environment]="modalData.environment" [disableClicks]="true"></app-app-details>
+      </div>
+    </div>
+    
+    <div class="modal-footer">
+      <button mat-button (click)="closeModal()">Cerrar</button>
+    </div>
+  </div>
+</div>

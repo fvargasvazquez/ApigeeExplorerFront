@@ -20,6 +20,8 @@
   word-break: break-word;
 }
 
+// Los estilos clickeables ahora están en shared-details.scss
+
 .no-products {
   @extend .no-data;
 }

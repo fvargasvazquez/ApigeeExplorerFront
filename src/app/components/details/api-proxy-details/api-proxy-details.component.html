@@ -5,15 +5,24 @@
     <div class="proxy-environments-container">
       <div *ngFor="let env of details?.enrichedProxyEnvironments" class="proxy-env-card">
         <div class="proxy-env-header">
-          <span class="proxy-env-name">{{ env.ambiente }}</span>
-          <span class="proxy-env-basepath">{{ env.basePath }}</span>
-          <span class="proxy-env-revision" *ngIf="env.revision">Rev: {{ env.revision }}</span>
+          <span class="proxy-env-name"
+                [class.non-clickable-chip]="disableClicks">{{ env.ambiente }}</span>
+          <span class="proxy-env-basepath"
+                [class.non-clickable-chip]="disableClicks">{{ env.basePath }}</span>
+          <span class="proxy-env-revision" 
+                *ngIf="env.revision"
+                [class.non-clickable-chip]="disableClicks">Rev: {{ env.revision }}</span>
         </div>
         
         <div class="proxy-env-products" *ngIf="getEnvironmentProducts(env).length > 0">
           <span class="proxy-env-label">Productos:</span>
           <div class="proxy-env-product-chips">
-            <span *ngFor="let product of getEnvironmentProducts(env)" class="proxy-env-product-chip">
+            <span *ngFor="let product of getEnvironmentProducts(env)" 
+                  class="proxy-env-product-chip"
+                  [class.clickable-product]="!disableClicks"
+                  (click)="onProductClick(product)"
+                  [title]="!disableClicks ? 'Click para ver detalles de ' + product : ''"
+                  [style.cursor]="!disableClicks ? 'pointer' : 'default'">
               {{ product }}
             </span>
           </div>
@@ -23,7 +32,12 @@
           <!-- <span class="proxy-env-label">🎯 Target Servers:</span> -->
           <span class="proxy-env-label">Target Servers:</span>
           <div class="proxy-env-target-chips">
-            <span *ngFor="let target of env.targetServers" class="proxy-env-target-chip">
+            <span *ngFor="let target of env.targetServers" 
+                  class="proxy-env-target-chip"
+                  [class.clickable-target]="!disableClicks"
+                  (click)="onTargetServerClick(target)"
+                  [title]="!disableClicks ? 'Click para ver detalles de ' + target : ''"
+                  [style.cursor]="!disableClicks ? 'pointer' : 'default'">
               {{ target }}
             </span>
           </div>
@@ -35,10 +49,13 @@
           <div class="proxy-flows-container">
             <div *ngFor="let flow of env.flows" class="proxy-flow-card">
               <div class="proxy-flow-header">
-                <span class="proxy-flow-method" [class]="'method-' + flow.method.toLowerCase()">
+                <span class="proxy-flow-method" 
+                      [class]="'method-' + flow.method.toLowerCase()"
+                      [class.non-clickable-chip]="disableClicks">
                   {{ flow.method }}
                 </span>
-                <span class="proxy-flow-path">{{ flow.path }}</span>
+                <span class="proxy-flow-path"
+                      [class.non-clickable-chip]="disableClicks">{{ flow.path }}</span>
               </div>
             </div>
           </div>

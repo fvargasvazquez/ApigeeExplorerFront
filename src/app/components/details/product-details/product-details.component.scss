@@ -19,6 +19,8 @@
   @extend .unified-chip-sm;
 }
 
+// Los estilos clickeables ahora están en shared-details.scss
+
 .no-product-apps {
   @extend .no-data;
 }

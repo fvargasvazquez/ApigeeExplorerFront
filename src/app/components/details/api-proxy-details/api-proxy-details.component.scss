@@ -82,6 +82,8 @@
   @extend .unified-chip-sm;
 }
 
+// Los estilos clickeables ahora están en shared-details.scss
+
 .proxy-env-target-chips {
   display: flex;
   flex-wrap: wrap;

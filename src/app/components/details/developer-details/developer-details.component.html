@@ -16,7 +16,9 @@
       <div *ngFor="let app of details?.enrichedApps" class="app-card">
         <div class="app-header">
           <span class="app-name">{{ app.name }}</span>
-          <span class="app-status" [ngClass]="'status-' + app.status">{{ app.status }}</span>
+          <span class="app-status" 
+                [ngClass]="'status-' + app.status"
+                [class.non-clickable-chip]="disableClicks">{{ app.status }}</span>
         </div>
         <div class="app-details">
           <div class="app-detail">
@@ -33,7 +35,12 @@
             <!-- <span class="app-label">📦 Productos:</span> -->
             <span class="app-label">Productos:</span>
             <div class="app-products">
-              <span *ngFor="let product of app.products" class="app-product-chip">
+              <span *ngFor="let product of app.products" 
+                    class="app-product-chip"
+                    [class.clickable-product]="!disableClicks"
+                    (click)="onProductClick(product)"
+                    [title]="!disableClicks ? 'Click para ver detalles de ' + product : ''"
+                    [style.cursor]="!disableClicks ? 'pointer' : 'default'">
                 {{ product }}
               </span>
             </div>

@@ -46,27 +46,27 @@
         <div class="card-content">
           <!-- Target Server Details -->
           <ng-container *ngIf="result.componentType === 'TargetServer'">
-            <app-target-server-details [details]="result.details"></app-target-server-details>
+            <app-target-server-details [details]="result.details" [environment]="environment"></app-target-server-details>
           </ng-container>
 
           <!-- API Proxy Details -->
           <ng-container *ngIf="result.componentType === 'ApiProxy'">
-            <app-api-proxy-details [details]="result.details"></app-api-proxy-details>
+            <app-api-proxy-details [details]="result.details" [environment]="environment"></app-api-proxy-details>
           </ng-container>
 
           <!-- App Details -->
           <ng-container *ngIf="result.componentType === 'App'">
-            <app-app-details [details]="result.details"></app-app-details>
+            <app-app-details [details]="result.details" [environment]="environment"></app-app-details>
           </ng-container>
 
           <!-- Developer Details -->
           <ng-container *ngIf="result.componentType === 'Developer'">
-            <app-developer-details [details]="result.details"></app-developer-details>
+            <app-developer-details [details]="result.details" [environment]="environment"></app-developer-details>
           </ng-container>
 
           <!-- Product Details -->
           <ng-container *ngIf="result.componentType === 'Product'">
-            <app-product-details [details]="result.details"></app-product-details>
+            <app-product-details [details]="result.details" [environment]="environment"></app-product-details>
           </ng-container>
 
           <!-- Keystore Details -->
@@ -108,3 +108,18 @@
     <p>{{ errorMessage }}</p>
   </div>
 </div>
+
+<!-- Product Modal -->
+<app-product-modal></app-product-modal>
+
+<!-- App Modal -->
+<app-app-modal></app-app-modal>
+
+<!-- API Modal -->
+<app-api-modal></app-api-modal>
+
+<!-- Developer Modal -->
+<app-developer-modal></app-developer-modal>
+
+<!-- Target Server Modal -->
+<app-target-server-modal></app-target-server-modal>

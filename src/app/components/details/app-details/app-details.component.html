@@ -13,7 +13,12 @@
     <!-- <span class="label">📦 Productos Asociados ({{ details?.appProducts?.length || 0 }}):</span> -->
     <span class="label">Productos ({{ details?.appProducts?.length || 0 }}):</span>
     <div class="products-container">
-      <div *ngFor="let product of details?.appProducts" class="product-chip">
+      <div *ngFor="let product of details?.appProducts" 
+           class="product-chip"
+           [class.clickable-product]="!disableClicks"
+           (click)="onProductClick(product)"
+           [title]="!disableClicks ? 'Click para ver detalles de ' + product : ''"
+           [style.cursor]="!disableClicks ? 'pointer' : 'default'">
         {{ product }}
       </div>
       <div *ngIf="!details?.appProducts || details?.appProducts?.length === 0" class="no-products">

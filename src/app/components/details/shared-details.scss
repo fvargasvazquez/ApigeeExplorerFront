@@ -24,7 +24,7 @@
 }
 
 // 🎨 MODERN UNIFIED CHIP SYSTEM
-// Base chip style - elegant and minimal
+// Base chip style - elegant and minimal (NO HOVER by default)
 .unified-chip {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   color: #475569;
@@ -35,25 +35,16 @@
   font-weight: 500;
   display: inline-block;
   margin: 2px;
-  transition: all 0.2s ease;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  // NO transition or hover by default - only for clickeable elements
 }
 
-.unified-chip:hover {
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-// Accent variant for important items
+// Accent variant for important items (NO HOVER by default)
 .unified-chip-accent {
   background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 100%);
   color: #c2410c;
   border: 1px solid #fb923c;
-}
-
-.unified-chip-accent:hover {
-  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+  // NO hover by default - only for clickeable elements
 }
 
 // Small variant for compact spaces
@@ -136,20 +127,32 @@
   border: 1px solid #a855f7;
 }
 
-// Card styles with unified design
+// Card styles with unified design (NO HOVER by default)
 .unified-card {
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid #e2e8f0;
   border-radius: 12px;
   padding: 16px;
-  transition: all 0.3s ease;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  // NO transition or hover by default - only for clickeable cards
 }
 
-.unified-card:hover {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+// Clickeable card variant (only use when card is actually clickeable)
+.unified-card-clickable {
+  @extend .unified-card;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
 }
 
 // No data message
@@ -158,4 +161,156 @@
   font-style: italic;
   font-size: 0.9rem;
   padding: 8px 0;
+}
+
+// 🎯 CLICKEABLE ELEMENTS - UNIFIED HOVER STYLES
+// Base clickeable style for any element
+.clickable-element {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// 🚫 NON-CLICKEABLE ELEMENTS - NO HOVER STYLES
+// Use these classes for elements that should NEVER have hover effects
+.non-clickable-chip {
+  cursor: default !important;
+  transition: none !important;
+  pointer-events: none !important; // Completely disable hover interactions
+  
+  &:hover,
+  &:focus,
+  &:active {
+    transform: none !important;
+    box-shadow: inherit !important;
+    background: inherit !important;
+    background-color: inherit !important;
+    background-image: inherit !important;
+    color: inherit !important;
+    border: inherit !important;
+    border-color: inherit !important;
+    opacity: inherit !important;
+    filter: none !important;
+  }
+}
+
+// More specific overrides for common chip classes
+.unified-chip.non-clickable-chip,
+.unified-chip-accent.non-clickable-chip,
+.proxy-env-chip.non-clickable-chip,
+.proxy-basepath-chip.non-clickable-chip,
+.proxy-target-chip.non-clickable-chip,
+.env-chip.non-clickable-chip,
+.api-chip.non-clickable-chip,
+.method-get.non-clickable-chip,
+.method-post.non-clickable-chip,
+.method-put.non-clickable-chip,
+.method-delete.non-clickable-chip,
+.method-patch.non-clickable-chip,
+.proxy-env-name.non-clickable-chip,
+.proxy-env-basepath.non-clickable-chip,
+.proxy-env-revision.non-clickable-chip,
+.proxy-flow-method.non-clickable-chip,
+.proxy-flow-path.non-clickable-chip,
+.app-status.non-clickable-chip {
+  cursor: default !important;
+  transition: none !important;
+  pointer-events: none !important;
+  
+  &:hover,
+  &:focus,
+  &:active {
+    transform: none !important;
+    box-shadow: inherit !important;
+    background: inherit !important;
+    background-color: inherit !important;
+    background-image: inherit !important;
+    color: inherit !important;
+    border: inherit !important;
+    border-color: inherit !important;
+    opacity: inherit !important;
+    filter: none !important;
+  }
+}
+
+// Clickeable API elements (blue theme)
+.clickable-api {
+  @extend .clickable-element;
+  
+  &:hover {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%) !important;
+    color: #1e40af !important;
+    border-color: #3b82f6 !important;
+  }
+}
+
+// Clickeable Product elements (orange theme)
+.clickable-product {
+  @extend .clickable-element;
+  
+  &:hover {
+    background: linear-gradient(135deg, #fdba74 0%, #fb923c 100%) !important;
+    color: #ffffff !important;
+    border-color: #fb923c !important;
+  }
+}
+
+// Clickeable App elements (orange theme, same as products)
+.clickable-app {
+  @extend .clickable-element;
+  
+  &:hover {
+    background: linear-gradient(135deg, #fdba74 0%, #fb923c 100%) !important;
+    color: #ffffff !important;
+    border-color: #fb923c !important;
+  }
+}
+
+// Clickeable Target Server elements (blue theme)
+.clickable-target {
+  @extend .clickable-element;
+  
+  &:hover {
+    background: linear-gradient(135deg, #dbeafe 0%, #3b82f6 100%) !important;
+    color: #ffffff !important;
+    border-color: #3b82f6 !important;
+  }
+}
+
+// Clickeable Developer elements (green theme)
+.clickable-developer {
+  @extend .clickable-element;
+  
+  &:hover {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+    color: #166534 !important;
+    border-color: #22c55e !important;
+  }
+}
+
+// Clickeable text elements (for names, titles, etc.)
+.clickable-text {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 4px 8px;
+  border-radius: 6px;
+  
+  &:hover {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #0369a1;
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
 }

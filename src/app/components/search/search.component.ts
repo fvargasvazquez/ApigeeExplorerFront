@@ -22,6 +22,11 @@ import {
   ReferenceDetailsComponent,
   DefaultDetailsComponent
 } from '../details';
+import { ProductModalComponent } from '../product-modal/product-modal.component';
+import { AppModalComponent } from '../app-modal/app-modal.component';
+import { ApiModalComponent } from '../api-modal/api-modal.component';
+import { DeveloperModalComponent } from '../developer-modal/developer-modal.component';
+import { TargetServerModalComponent } from '../target-server-modal/target-server-modal.component';
 
 @Component({
   selector: 'app-search',
@@ -43,7 +48,12 @@ import {
     ProductDetailsComponent,
     KeystoreDetailsComponent,
     ReferenceDetailsComponent,
-    DefaultDetailsComponent
+    DefaultDetailsComponent,
+    ProductModalComponent,
+    AppModalComponent,
+    ApiModalComponent,
+    DeveloperModalComponent,
+    TargetServerModalComponent
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'

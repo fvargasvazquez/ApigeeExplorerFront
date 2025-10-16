@@ -16,7 +16,6 @@
 .api-chip {
   @extend .unified-chip-accent;
   @extend .unified-chip-sm;
-  cursor: pointer;
   word-break: break-word;
 }
 
@@ -76,11 +75,4 @@
 // Override the apis-container inside environment cards
 .environment-apis .apis-container {
   margin-top: 0;
-  
-  .api-chip {
-    @extend .unified-chip-accent;
-    @extend .unified-chip-sm;
-    cursor: pointer;
-    word-break: break-word;
-  }
 }

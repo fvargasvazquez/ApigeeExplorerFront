@@ -9,13 +9,19 @@
     <div class="product-proxies-container">
       <div *ngFor="let proxy of details?.enrichedProxies" class="product-proxy-card">
         <div class="product-proxy-header">
-          <span class="product-proxy-name">{{ proxy.name }}</span>
+          <span class="product-proxy-name" 
+                [class.clickable-api]="!disableClicks"
+                (click)="onApiClick(proxy.name)"
+                [title]="!disableClicks ? 'Click para ver detalles de ' + proxy.name : ''"
+                [style.cursor]="!disableClicks ? 'pointer' : 'default'">{{ proxy.name }}</span>
         </div>
         <div class="product-proxy-details">
           <div class="product-proxy-detail">
             <span class="product-proxy-label">Ambientes:</span>
             <div class="proxy-environments">
-              <span *ngFor="let env of proxy.environments" class="proxy-env-chip">
+              <span *ngFor="let env of proxy.environments" 
+                    class="proxy-env-chip"
+                    [class.non-clickable-chip]="disableClicks">
                 {{ env }}
               </span>
             </div>
@@ -23,7 +29,9 @@
           <div class="product-proxy-detail">
             <span class="product-proxy-label">BasePath:</span>
             <div class="proxy-basepaths">
-              <span *ngFor="let basePath of proxy.basePaths" class="proxy-basepath-chip">
+              <span *ngFor="let basePath of proxy.basePaths" 
+                    class="proxy-basepath-chip"
+                    [class.non-clickable-chip]="disableClicks">
                 {{ basePath }}
               </span>
             </div>
@@ -31,7 +39,12 @@
           <div class="product-proxy-detail" *ngIf="proxy.targetServers && proxy.targetServers.length > 0">
             <span class="product-proxy-label">Target Servers:</span>
             <div class="proxy-targets">
-              <span *ngFor="let target of proxy.targetServers" class="proxy-target-chip">
+              <span *ngFor="let target of proxy.targetServers" 
+                    class="proxy-target-chip"
+                    [class.clickable-target]="!disableClicks"
+                    (click)="onTargetServerClick(target)"
+                    [title]="!disableClicks ? 'Click para ver detalles de ' + target : ''"
+                    [style.cursor]="!disableClicks ? 'pointer' : 'default'">
                 {{ target }}
               </span>
             </div>
@@ -47,7 +60,12 @@
   <div class="detail-item apps-section">
     <span class="label">Apps ({{ details?.enrichedProductApps?.length || 0 }}):</span>
     <div class="product-apps">
-      <span *ngFor="let app of details?.enrichedProductApps" class="product-app-chip">
+      <span *ngFor="let app of details?.enrichedProductApps" 
+            class="product-app-chip"
+            [class.clickable-app]="!disableClicks"
+            (click)="onAppClick(app.name)"
+            [title]="!disableClicks ? 'Click para ver detalles de ' + app.name : ''"
+            [style.cursor]="!disableClicks ? 'pointer' : 'default'">
         {{ app.name }}
       </span>
       <div *ngIf="!details?.enrichedProductApps || details?.enrichedProductApps?.length === 0" class="no-product-apps">
