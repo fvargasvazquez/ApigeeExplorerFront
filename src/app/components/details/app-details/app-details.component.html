@@ -1,16 +1,18 @@
 <div class="app-details">
   <div class="detail-item">
-    <!-- <span class="label">👤 Developer:</span> -->
     <span class="label">Developer:</span>
     <span class="value">{{ details?.developerName || 'N/A' }}</span>
   </div>
   <div class="detail-item">
-    <!-- <span class="label">🏷️ Username:</span> -->
     <span class="label">Username:</span>
     <span class="value">{{ details?.username || 'N/A' }}</span>
   </div>
+  <div class="detail-item">
+    <span class="label">Status:</span>
+    <span class="value status-chip" 
+          [ngClass]="'status-' + (details?.status || 'unknown')">{{ details?.status || 'N/A' }}</span>
+  </div>
   <div class="detail-item products-section">
-    <!-- <span class="label">📦 Productos Asociados ({{ details?.appProducts?.length || 0 }}):</span> -->
     <span class="label">Productos ({{ details?.appProducts?.length || 0 }}):</span>
     <div class="products-container">
       <div *ngFor="let product of details?.appProducts" 

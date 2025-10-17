@@ -7,8 +7,8 @@ import { SearchResult } from '../models';
   providedIn: 'root'
 })
 export class ApiService {
-  private baseUrl = 'https://apigeeexplorerback-c0cge5evh6d0dacy.mexicocentral-01.azurewebsites.net/api';
-  //private baseUrl = 'http://localhost:5000/api';
+  //private baseUrl = 'https://apigeeexplorerback-c0cge5evh6d0dacy.mexicocentral-01.azurewebsites.net/api';
+  private baseUrl = 'http://localhost:5000/api';
 
   constructor(private http: HttpClient) { }
 

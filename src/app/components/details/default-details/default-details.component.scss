@@ -1,1 +1,13 @@
 @import '../shared-details.scss';
+
+// Copy all button positioning
+.default-details {
+  position: relative;
+}
+
+.copy-all-container {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}

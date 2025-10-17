@@ -1,5 +1,19 @@
 @import "../shared-details.scss";
 
+// Section header with copy button
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.section-header .label {
+  margin: 0;
+  flex: 1;
+}
+
 .proxy-products {
   display: flex;
   flex-wrap: wrap;
@@ -36,6 +50,8 @@
   margin-bottom: 8px;
   padding-bottom: 8px;
   border-bottom: 1px solid #e2e8f0;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .proxy-env-name {
@@ -91,6 +107,12 @@
   margin-bottom: 8px;
 }
 
+.target-chip-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
 .proxy-env-target-chip {
   @extend .unified-chip;
   @extend .unified-chip-sm;
@@ -111,10 +133,20 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .proxy-flow-method {
   // Los métodos HTTP usan las clases del sistema unificado
+}
+
+.flow-path-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .proxy-flow-path {

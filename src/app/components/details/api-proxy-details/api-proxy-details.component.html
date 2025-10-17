@@ -1,6 +1,5 @@
 <div class="api-proxy-details">
   <div class="detail-item proxy-environments-section">
-    <!-- <span class="label">🌍 Ambientes y Endpoints ({{ details?.enrichedProxyEnvironments?.length || 0 }}):</span> -->
     <span class="label">Ambientes y Endpoints ({{ details?.enrichedProxyEnvironments?.length || 0 }}):</span>
     <div class="proxy-environments-container">
       <div *ngFor="let env of details?.enrichedProxyEnvironments" class="proxy-env-card">
@@ -29,7 +28,6 @@
         </div>
 
         <div class="proxy-env-targets" *ngIf="env.targetServers && env.targetServers.length > 0">
-          <!-- <span class="proxy-env-label">🎯 Target Servers:</span> -->
           <span class="proxy-env-label">Target Servers:</span>
           <div class="proxy-env-target-chips">
             <span *ngFor="let target of env.targetServers" 
@@ -44,7 +42,6 @@
         </div>
 
         <div class="proxy-env-flows" *ngIf="env.flows && env.flows.length > 0">
-          <!-- <span class="proxy-env-label">🔗 Endpoints ({{ env.flows.length }}):</span> -->
           <span class="proxy-env-label">Endpoints ({{ env.flows.length }}):</span>
           <div class="proxy-flows-container">
             <div *ngFor="let flow of env.flows" class="proxy-flow-card">

@@ -1,4 +1,11 @@
 <div class="default-details">
+  <div class="copy-all-container">
+    <app-copy-button 
+      [textToCopy]="getAllDefaultInfo()" 
+      [tooltip]="'Copiar información'"
+      size="md"
+      variant="default"></app-copy-button>
+  </div>
   <div class="detail-item">
     <!-- <span class="label">🆔 ID:</span> -->
     <span class="label">ID:</span>

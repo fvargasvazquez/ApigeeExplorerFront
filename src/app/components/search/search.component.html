@@ -4,7 +4,6 @@
     <button mat-icon-button (click)="goBack()" class="back-button">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <!-- <h1>🔍 Buscar en {{ environment.toUpperCase() }}</h1> -->
     <h1>Buscar en {{ environment.toUpperCase() }}</h1>
   </div>
 
@@ -29,7 +28,6 @@
   <!-- Results -->
   <div class="results-section" *ngIf="searchResults.length > 0">
     <div class="results-header">
-      <!-- <h2>📊 Resultados ({{ searchResults.length }})</h2> -->
       <h2>Resultados ({{ searchResults.length }})</h2>
     </div>
     
@@ -41,32 +39,53 @@
             <h3>{{ result.name }}</h3>
             <span class="card-type">{{ getComponentDisplayName(result.componentType) }}</span>
           </div>
+          <div class="card-actions">
+            <button mat-icon-button (click)="copyToClipboard(result)" 
+                    [title]="'Copiar información de ' + result.name">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
         </div>
 
         <div class="card-content">
           <!-- Target Server Details -->
           <ng-container *ngIf="result.componentType === 'TargetServer'">
-            <app-target-server-details [details]="result.details" [environment]="environment"></app-target-server-details>
+            <app-target-server-details 
+              [details]="result.details" 
+              [environment]="environment"
+              [name]="result.name"></app-target-server-details>
           </ng-container>
 
           <!-- API Proxy Details -->
           <ng-container *ngIf="result.componentType === 'ApiProxy'">
-            <app-api-proxy-details [details]="result.details" [environment]="environment"></app-api-proxy-details>
+            <app-api-proxy-details 
+              [details]="result.details" 
+              [environment]="environment"
+              [name]="result.name"></app-api-proxy-details>
           </ng-container>
 
           <!-- App Details -->
           <ng-container *ngIf="result.componentType === 'App'">
-            <app-app-details [details]="result.details" [environment]="environment"></app-app-details>
+            <app-app-details 
+              [details]="result.details" 
+              [environment]="environment"
+              [name]="result.name"></app-app-details>
           </ng-container>
 
           <!-- Developer Details -->
           <ng-container *ngIf="result.componentType === 'Developer'">
-            <app-developer-details [details]="result.details" [environment]="environment"></app-developer-details>
+            <app-developer-details 
+              [details]="result.details" 
+              [environment]="environment"
+              [name]="result.name"></app-developer-details>
           </ng-container>
 
           <!-- Product Details -->
           <ng-container *ngIf="result.componentType === 'Product'">
-            <app-product-details [details]="result.details" [environment]="environment"></app-product-details>
+            <app-product-details 
+              [details]="result.details" 
+              [environment]="environment"
+              [name]="result.name"></app-product-details>
           </ng-container>
 
           <!-- Keystore Details -->

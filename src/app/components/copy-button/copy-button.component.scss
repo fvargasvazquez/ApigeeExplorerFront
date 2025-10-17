@@ -1,0 +1,82 @@
+.copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  color: #64748b;
+  
+  &:hover {
+    color: #374151;
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  svg {
+    transition: all 0.2s ease;
+  }
+}
+
+// Size variants
+.copy-button-sm {
+  padding: 4px;
+  
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.copy-button-md {
+  padding: 6px;
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.copy-button-lg {
+  padding: 8px;
+  
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+// Style variants
+.copy-button-default {
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  
+  &:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+  }
+}
+
+.copy-button-subtle {
+  border: none;
+  background: transparent;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+// Focus styles for accessibility
+.copy-button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.copy-button:focus:not(:focus-visible) {
+  outline: none;
+}

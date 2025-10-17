@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
 import { ModalService, TargetServerModalData } from '../../services/modal.service';
 import { ApiService } from '../../services/api.service';
+import { ClipboardService } from '../../services/clipboard.service';
 import { TargetServerDetailsComponent } from '../details/target-server-details/target-server-details.component';
 import { SearchResultDetails } from '../../models';
 
@@ -34,7 +35,8 @@ export class TargetServerModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private modalService: ModalService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private clipboardService: ClipboardService
   ) {}
 
   ngOnInit() {
@@ -79,5 +81,57 @@ export class TargetServerModalComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalService.closeTargetServerModal();
+  }
+
+  async copyToClipboard() {
+    if (!this.targetServerDetails || !this.modalData.targetServerName || !this.modalData.environment) {
+      return;
+    }
+
+    const result = {
+      componentType: 'TargetServer' as const,
+      name: this.modalData.targetServerName,
+      details: this.targetServerDetails
+    };
+
+    const copyText = this.getResultCopyText(result, this.modalData.environment);
+    const success = await this.clipboardService.copyToClipboard(copyText);
+    
+    if (success) {
+      this.clipboardService.showCopySuccess('Información copiada al portapapeles');
+    } else {
+      this.clipboardService.showCopySuccess('Error al copiar');
+    }
+  }
+
+  private getResultCopyText(result: any, environment: string): string {
+    if (!result.details) return `${result.componentType}: ${result.name}`;
+
+    let componentLabel = result.componentType === 'ApiProxy' ? 'API' : 
+                        result.componentType === 'Product' ? 'PRODUCTO' : 
+                        result.componentType === 'TargetServer' ? 'TARGET SERVER' :
+                        result.componentType.toUpperCase();
+    let info = `${componentLabel}: ${result.name}\n`;
+
+    if (result.componentType === 'TargetServer') {
+      info += `\nHost: ${result.details.host || 'N/A'}\n`;
+      
+      if (result.details.environments && result.details.environments.length > 0) {
+        info += `Ambientes: ${result.details.environments.join(', ')}\n`;
+      }
+      
+      if (result.details.apisByEnvironment) {
+        Object.entries(result.details.apisByEnvironment).forEach(([env, apis]) => {
+          if (apis && (apis as string[]).length > 0) {
+            info += `\n• APIS ${env.toUpperCase()}:\n`;
+            (apis as string[]).forEach(api => {
+              info += `    ${api}\n`;
+            });
+          }
+        });
+      }
+    }
+
+    return info.trim();
   }
 }

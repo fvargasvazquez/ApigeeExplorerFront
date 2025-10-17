@@ -1,5 +1,17 @@
 @import '../shared-details.scss';
 
+// Copy all button positioning
+.product-details {
+  position: relative;
+}
+
+.copy-all-container {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
+
 // Apps section styles - positioned at the left
 .apps-section {
   flex-direction: column;
@@ -20,6 +32,14 @@
 }
 
 // Los estilos clickeables ahora están en shared-details.scss
+
+// Copy button containers
+.value-with-copy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
 
 .no-product-apps {
   @extend .no-data;
@@ -104,4 +124,11 @@
 
 .no-product-proxies {
   @extend .no-data;
+}
+
+// Chip containers with copy buttons
+.basepath-chip-container, .target-chip-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }

@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
 import { ModalService, ApiModalData } from '../../services/modal.service';
 import { ApiService } from '../../services/api.service';
+import { ClipboardService } from '../../services/clipboard.service';
 import { ApiProxyDetailsComponent } from '../details/api-proxy-details/api-proxy-details.component';
 import { SearchResultDetails } from '../../models';
 
@@ -34,7 +35,8 @@ export class ApiModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private modalService: ModalService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private clipboardService: ClipboardService
   ) {}
 
   ngOnInit() {
@@ -79,5 +81,111 @@ export class ApiModalComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalService.closeApiModal();
+  }
+
+  async copyToClipboard() {
+    if (!this.apiDetails || !this.modalData.apiName || !this.modalData.environment) {
+      return;
+    }
+
+    const result = {
+      componentType: 'ApiProxy' as const,
+      name: this.modalData.apiName,
+      details: this.apiDetails
+    };
+
+    const copyText = this.getResultCopyText(result, this.modalData.environment);
+    const success = await this.clipboardService.copyToClipboard(copyText);
+    
+    if (success) {
+      this.clipboardService.showCopySuccess('Información copiada al portapapeles');
+    } else {
+      this.clipboardService.showCopySuccess('Error al copiar');
+    }
+  }
+
+  private getResultCopyText(result: any, environment: string): string {
+    if (!result.details) return `${result.componentType}: ${result.name}`;
+
+    let componentLabel = result.componentType === 'ApiProxy' ? 'API' : 
+                        result.componentType === 'Product' ? 'PRODUCTO' : 
+                        result.componentType === 'TargetServer' ? 'TARGET SERVER' :
+                        result.componentType.toUpperCase();
+    let info = `${componentLabel}: ${result.name}\n`;
+
+    if (result.componentType === 'ApiProxy') {
+      if (result.details.enrichedProxyEnvironments && result.details.enrichedProxyEnvironments.length > 0) {
+        result.details.enrichedProxyEnvironments.forEach((env: any, index: number) => {
+          info += `\n• Ambiente: ${env.ambiente}`;
+          info += `\n  BasePath: ${env.basePath}`;
+          if (env.revision) {
+            info += `\n  Revisión: ${env.revision}`;
+          }
+          
+          const productsToShow = this.getEnvironmentProducts(env, result.details);
+          if (productsToShow.length > 0) {
+            info += `\n  Productos:`;
+            productsToShow.forEach((product: string) => {
+              info += `\n    ${product}`;
+            });
+          }
+          
+          if (env.targetServers && env.targetServers.length > 0) {
+            info += `\n  Target Servers: ${env.targetServers.join(', ')}`;
+          }
+          if (env.flows && env.flows.length > 0) {
+            info += `\n  Recursos:`;
+            env.flows.forEach((flow: any) => {
+              info += `\n    ${flow.method} ${flow.path}`;
+            });
+          }
+          
+          if (result.details?.enrichedProxyEnvironments && index < result.details.enrichedProxyEnvironments.length - 1) {
+            info += `\n`;
+          }
+        });
+      }
+    }
+
+    return info.trim();
+  }
+
+  private filterMonitoringProducts(products: string[]): string[] {
+    return products.filter(product => {
+      const productUpper = product.toUpperCase();
+      return !productUpper.includes('BAZ MON MONITOREO');
+    });
+  }
+
+  private getEnvironmentProducts(env: any, details: any): string[] {
+    if (env.products && env.products.length > 0) {
+      return this.filterMonitoringProducts(env.products);
+    }
+
+    if (details?.enrichedProducts && details.enrichedProducts.length > 0) {
+      const filteredProducts = details.enrichedProducts
+        .filter((product: any) => product.ambientes === env.ambiente)
+        .map((product: any) => product.nombreDisplay || product.name);
+
+      return this.filterMonitoringProducts(filteredProducts);
+    }
+
+    const allProducts = details?.products || [];
+    const environmentFiltered = allProducts.filter((productName: string) => {
+      const productUpper = productName.toUpperCase();
+      const ambienteUpper = env.ambiente.toUpperCase();
+
+      if (ambienteUpper.includes('EXT')) {
+        return productUpper.endsWith(' EXT');
+      }
+
+      if (ambienteUpper.includes('INT')) {
+        return productUpper.endsWith(' INT');
+      }
+
+      return true;
+    });
+
+    return this.filterMonitoringProducts(environmentFiltered);
   }
 }

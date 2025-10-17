@@ -20,6 +20,7 @@ export interface SearchResultDetails {
   developerName?: string;
   username?: string;
   appProducts?: string[];
+  status?: string;
   
   // Para Developers
   fullName?: string;

@@ -14,6 +14,7 @@ export class AppDetailsComponent {
   @Input() details?: SearchResultDetails;
   @Input() environment?: string;
   @Input() disableClicks?: boolean = false;
+  @Input() name?: string;
 
   constructor(private modalService: ModalService) {}
 
@@ -21,5 +22,25 @@ export class AppDetailsComponent {
     if (this.environment && !this.disableClicks) {
       this.modalService.openProductModal(productName, this.environment);
     }
+  }
+
+  getAllAppInfo(): string {
+    if (!this.details) return '';
+
+    let info = `APLICACIÓN: ${this.name || 'N/A'}\n`;
+    info += `Developer: ${this.details.developerName || 'N/A'}\n`;
+    info += `Username: ${this.details.username || 'N/A'}\n`;
+    info += `Status: ${this.details.status || 'N/A'}\n\n`;
+
+    if (this.details.appProducts && this.details.appProducts.length > 0) {
+      info += `PRODUCTOS (${this.details.appProducts.length}):\n`;
+      this.details.appProducts.forEach(product => {
+        info += `• ${product}\n`;
+      });
+    } else {
+      info += `PRODUCTOS: Ningún producto asociado\n`;
+    }
+
+    return info.trim();
   }
 }

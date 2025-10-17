@@ -1,4 +1,11 @@
 <div class="target-server-details">
+  <div class="copy-all-container">
+    <app-copy-button 
+      [textToCopy]="getAllTargetServerInfo()" 
+      [tooltip]="'Copiar toda la información del Target Server'"
+      size="md"
+      variant="default"></app-copy-button>
+  </div>
   <div class="detail-item">
     <span class="label">Host:</span>
     <span class="value">{{ details?.host || 'N/A' }}</span>
@@ -30,14 +37,14 @@
           <span class="api-count">({{ getApisForEnvironment(env)?.length || 0 }})</span>
         </div>
         <div class="apis-container">
-          <div *ngFor="let api of getApisForEnvironment(env)" 
-               class="api-chip"
-               [class.clickable-api]="!disableClicks"
-               (click)="onApiClick(api)"
-               [title]="!disableClicks ? 'Click para ver detalles de ' + api : ''"
-               [style.cursor]="!disableClicks ? 'pointer' : 'default'">
+          <span *ngFor="let api of getApisForEnvironment(env)" 
+                class="api-chip"
+                [class.clickable-api]="!disableClicks"
+                (click)="onApiClick(api)"
+                [title]="!disableClicks ? 'Click para ver detalles de ' + api : ''"
+                [style.cursor]="!disableClicks ? 'pointer' : 'default'">
             {{ api }}
-          </div>
+          </span>
           <div *ngIf="!getApisForEnvironment(env) || getApisForEnvironment(env)?.length === 0" class="no-apis">
             Ninguna API en este ambiente
           </div>
@@ -48,14 +55,14 @@
     <!-- Fallback to flat list if grouped data is not available -->
     <ng-template #showFlatApis>
       <div class="apis-container">
-        <div *ngFor="let api of details?.associatedApis" 
-             class="api-chip"
-             [class.clickable-api]="!disableClicks"
-             (click)="onApiClick(api)"
-             [title]="!disableClicks ? 'Click para ver detalles de ' + api : ''"
-             [style.cursor]="!disableClicks ? 'pointer' : 'default'">
+        <span *ngFor="let api of details?.associatedApis" 
+              class="api-chip"
+              [class.clickable-api]="!disableClicks"
+              (click)="onApiClick(api)"
+              [title]="!disableClicks ? 'Click para ver detalles de ' + api : ''"
+              [style.cursor]="!disableClicks ? 'pointer' : 'default'">
           {{ api }}
-        </div>
+        </span>
         <div *ngIf="!details?.associatedApis || details?.associatedApis?.length === 0" class="no-apis">
           Ninguna API asociada
         </div>

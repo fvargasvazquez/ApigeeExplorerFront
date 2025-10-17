@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
 import { ModalService, AppModalData } from '../../services/modal.service';
 import { ApiService } from '../../services/api.service';
+import { ClipboardService } from '../../services/clipboard.service';
 import { AppDetailsComponent } from '../details/app-details/app-details.component';
 import { SearchResultDetails } from '../../models';
 
@@ -34,7 +35,8 @@ export class AppModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private modalService: ModalService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private clipboardService: ClipboardService
   ) {}
 
   ngOnInit() {
@@ -79,5 +81,61 @@ export class AppModalComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalService.closeAppModal();
+  }
+
+  async copyToClipboard() {
+    if (!this.appDetails || !this.modalData.appName || !this.modalData.environment) {
+      return;
+    }
+
+    const result = {
+      componentType: 'App' as const,
+      name: this.modalData.appName,
+      details: this.appDetails
+    };
+
+    const copyText = this.getResultCopyText(result, this.modalData.environment);
+    const success = await this.clipboardService.copyToClipboard(copyText);
+    
+    if (success) {
+      this.clipboardService.showCopySuccess('Información copiada al portapapeles');
+    } else {
+      this.clipboardService.showCopySuccess('Error al copiar');
+    }
+  }
+
+  private getResultCopyText(result: any, environment: string): string {
+    if (!result.details) return `${result.componentType}: ${result.name}`;
+
+    let componentLabel = result.componentType === 'ApiProxy' ? 'API' : 
+                        result.componentType === 'Product' ? 'PRODUCTO' : 
+                        result.componentType === 'TargetServer' ? 'TARGET SERVER' :
+                        result.componentType.toUpperCase();
+    let info = `${componentLabel}: ${result.name}\n`;
+
+    if (result.componentType === 'App') {
+      info += `\n• Developer: ${result.details.developerName || 'N/A'}\n`;
+      info += `Username: ${result.details.username || 'N/A'}\n`;
+      info += `Status: ${result.details.status || 'N/A'}\n`;
+      
+      if (result.details.appProducts && result.details.appProducts.length > 0) {
+        const filteredProducts = this.filterMonitoringProducts(result.details.appProducts);
+        if (filteredProducts.length > 0) {
+          info += `\nPRODUCTOS:\n`;
+          filteredProducts.forEach((product: string) => {
+            info += `    ${product}\n`;
+          });
+        }
+      }
+    }
+
+    return info.trim();
+  }
+
+  private filterMonitoringProducts(products: string[]): string[] {
+    return products.filter(product => {
+      const productUpper = product.toUpperCase();
+      return !productUpper.includes('BAZ MON MONITOREO');
+    });
   }
 }

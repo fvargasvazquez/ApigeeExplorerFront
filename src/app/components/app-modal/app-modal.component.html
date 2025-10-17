@@ -2,9 +2,16 @@
   <div class="modal-container" (click)="$event.stopPropagation()">
     <div class="modal-header">
       <h2>{{ modalData.appName }}</h2>
-      <button mat-icon-button (click)="closeModal()" class="close-button">
-        <mat-icon>close</mat-icon>
-      </button>
+      <div class="header-actions">
+        <button mat-icon-button (click)="copyToClipboard()" 
+                [disabled]="!appDetails || isLoading"
+                title="Copiar al portapapeles">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+        <button mat-icon-button (click)="closeModal()" class="close-button">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
     </div>
     
     <div class="modal-content">

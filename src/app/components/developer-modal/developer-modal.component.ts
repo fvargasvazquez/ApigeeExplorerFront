@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Subscription } from 'rxjs';
 import { ModalService, DeveloperModalData } from '../../services/modal.service';
 import { ApiService } from '../../services/api.service';
+import { ClipboardService } from '../../services/clipboard.service';
 import { DeveloperDetailsComponent } from '../details/developer-details/developer-details.component';
 import { SearchResultDetails } from '../../models';
 
@@ -34,7 +35,8 @@ export class DeveloperModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private modalService: ModalService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private clipboardService: ClipboardService
   ) {}
 
   ngOnInit() {
@@ -124,5 +126,68 @@ export class DeveloperModalComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalService.closeDeveloperModal();
+  }
+
+  async copyToClipboard() {
+    if (!this.developerDetails || !this.modalData.developerName || !this.modalData.environment) {
+      return;
+    }
+
+    const result = {
+      componentType: 'Developer' as const,
+      name: this.modalData.developerName,
+      details: this.developerDetails
+    };
+
+    const copyText = this.getResultCopyText(result, this.modalData.environment);
+    const success = await this.clipboardService.copyToClipboard(copyText);
+    
+    if (success) {
+      this.clipboardService.showCopySuccess('Información copiada al portapapeles');
+    } else {
+      this.clipboardService.showCopySuccess('Error al copiar');
+    }
+  }
+
+  private getResultCopyText(result: any, environment: string): string {
+    if (!result.details) return `${result.componentType}: ${result.name}`;
+
+    let componentLabel = result.componentType === 'ApiProxy' ? 'API' : 
+                        result.componentType === 'Product' ? 'PRODUCTO' : 
+                        result.componentType === 'TargetServer' ? 'TARGET SERVER' :
+                        result.componentType.toUpperCase();
+    let info = `${componentLabel}: ${result.name}\n`;
+
+    if (result.componentType === 'Developer') {
+      info += `\n• Nombre: ${result.details.fullName || 'N/A'}\n`;
+      info += `Email: ${result.details.email || 'N/A'}\n`;
+      
+      if (result.details.enrichedApps && result.details.enrichedApps.length > 0) {
+        info += `\nAPPS:\n`;
+        result.details.enrichedApps.forEach((app: any) => {
+          info += `• ${app.name} (${app.status})\n`;
+          
+          if (app.products && app.products.length > 0) {
+            const filteredProducts = this.filterMonitoringProducts(app.products);
+            if (filteredProducts.length > 0) {
+              info += `Productos:\n`;
+              filteredProducts.forEach((product: string) => {
+                info += `  ${product}\n`;
+              });
+            }
+          }
+          info += `\n`;
+        });
+      }
+    }
+
+    return info.trim();
+  }
+
+  private filterMonitoringProducts(products: string[]): string[] {
+    return products.filter(product => {
+      const productUpper = product.toUpperCase();
+      return !productUpper.includes('BAZ MON MONITOREO');
+    });
   }
 }

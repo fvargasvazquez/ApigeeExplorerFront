@@ -1,5 +1,17 @@
 @import '../shared-details.scss';
 
+// Copy all button positioning
+.app-details {
+  position: relative;
+}
+
+.copy-all-container {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+}
+
 .products-section {
   flex-direction: column;
   align-items: flex-start;
@@ -24,4 +36,12 @@
 
 .no-products {
   @extend .no-data;
+}
+
+// Copy button containers
+.value-with-copy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
 }

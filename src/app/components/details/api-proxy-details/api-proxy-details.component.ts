@@ -14,8 +14,9 @@ export class ApiProxyDetailsComponent {
   @Input() details?: SearchResultDetails;
   @Input() environment?: string;
   @Input() disableClicks?: boolean = false;
+  @Input() name?: string;
 
-  constructor(private modalService: ModalService) {}
+  constructor(private modalService: ModalService) { }
 
   onProductClick(productName: string) {
     if (this.environment && !this.disableClicks) {
@@ -75,5 +76,42 @@ export class ApiProxyDetailsComponent {
       const productUpper = product.toUpperCase();
       return !productUpper.includes('BAZ MON MONITOREO');
     });
+  }
+
+  getAllApiProxyInfo(): string {
+    if (!this.details) return '';
+
+    let info = `API: ${this.name || 'N/A'}\n`;
+    info += `Tipo: API Proxy\n\n`;
+
+    if (this.details.enrichedProxyEnvironments && this.details.enrichedProxyEnvironments.length > 0) {
+      info += `AMBIENTES Y ENDPOINTS:\n`;
+
+      this.details.enrichedProxyEnvironments.forEach(env => {
+        info += `\n• Ambiente: ${env.ambiente}\n`;
+        info += `  BasePath: ${env.basePath}\n`;
+        if (env.revision) {
+          info += `  Revisión: ${env.revision}\n`;
+        }
+
+        const products = this.getEnvironmentProducts(env);
+        if (products.length > 0) {
+          info += `  Productos: ${products.join(', ')}\n`;
+        }
+
+        if (env.targetServers && env.targetServers.length > 0) {
+          info += `  Target Servers: ${env.targetServers.join(', ')}\n`;
+        }
+
+        if (env.flows && env.flows.length > 0) {
+          info += `  Endpoints (${env.flows.length}):\n`;
+          env.flows.forEach(flow => {
+            info += `    ${flow.method} ${flow.path}\n`;
+          });
+        }
+      });
+    }
+
+    return info.trim();
   }
 }
