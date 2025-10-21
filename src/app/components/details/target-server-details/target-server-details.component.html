@@ -1,11 +1,4 @@
 <div class="target-server-details">
-  <div class="copy-all-container">
-    <app-copy-button 
-      [textToCopy]="getAllTargetServerInfo()" 
-      [tooltip]="'Copiar toda la información del Target Server'"
-      size="md"
-      variant="default"></app-copy-button>
-  </div>
   <div class="detail-item">
     <span class="label">Host:</span>
     <span class="value">{{ details?.host || 'N/A' }}</span>

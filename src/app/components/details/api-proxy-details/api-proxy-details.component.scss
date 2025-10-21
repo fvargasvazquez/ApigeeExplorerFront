@@ -126,19 +126,21 @@
 
 .proxy-flow-card {
   @extend .unified-card;
-  padding: 12px;
+  padding: 8px 12px;
 }
 
 .proxy-flow-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  justify-content: space-between;
   width: 100%;
 }
 
 .proxy-flow-method {
   // Los métodos HTTP usan las clases del sistema unificado
+  min-width: 50px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .flow-path-container {
