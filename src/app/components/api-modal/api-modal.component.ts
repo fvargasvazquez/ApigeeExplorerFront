@@ -139,6 +139,14 @@ export class ApiModalComponent implements OnInit, OnDestroy {
               info += `\n    ${flow.method} ${flow.path}`;
             });
           }
+
+          // Agregar curls inmediatamente después de los recursos de cada ambiente
+          const basePath = env.basePath || '';
+          const baseUrl = this.getBaseUrlForEnvironment(env.ambiente, environment);
+          
+          info += `\n  Curls:`;
+          info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/ping" -H "Authorization: Bearer XXXXX"`;
+          info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/status" -H "Authorization: Bearer XXXXX"`;
           
           if (result.details?.enrichedProxyEnvironments && index < result.details.enrichedProxyEnvironments.length - 1) {
             info += `\n`;
@@ -187,5 +195,38 @@ export class ApiModalComponent implements OnInit, OnDestroy {
     });
 
     return this.filterMonitoringProducts(environmentFiltered);
+  }
+
+  /**
+   * Obtiene la URL base según el ambiente
+   */
+  private getBaseUrlForEnvironment(ambiente: string, environment: string): string {
+    const ambienteUpper = ambiente.toUpperCase();
+    
+    // Determinar si es AWS o ONPREMISE basándose en el environment seleccionado
+    const isAWS = environment?.toUpperCase().includes('AWS') || false;
+    
+    if (isAWS) {
+      // AWS INT
+      if (ambienteUpper.includes('INT')) {
+        return 'https://internal-APIGEE-PROD-ALB01-1366664713.us-east-1.elb.amazonaws.com:8081';
+      }
+      // AWS EXT
+      if (ambienteUpper.includes('EXT')) {
+        return 'https://apis.apigeebaz.com:8080';
+      }
+    } else {
+      // ONPREMISE INT
+      if (ambienteUpper.includes('INT')) {
+        return 'https://prod-api.bancoazteca.com:8080';
+      }
+      // ONPREMISE EXT
+      if (ambienteUpper.includes('EXT')) {
+        return 'https://api.bancoazteca.com';
+      }
+    }
+    
+    // Default fallback para ONPREMISE EXT
+    return 'https://api.bancoazteca.com';
   }
 }
