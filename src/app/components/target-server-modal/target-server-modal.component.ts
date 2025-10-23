@@ -57,11 +57,14 @@ export class TargetServerModalComponent implements OnInit, OnDestroy {
     this.errorMessage = '';
     this.targetServerDetails = undefined;
 
-    this.apiService.search(environment, targetServerName).subscribe({
+    // Extraer el nombre real del target server removiendo (default) o (status)
+    const cleanTargetServerName = targetServerName.replace(/\s*\((default|status)\)\s*$/i, '').trim();
+
+    this.apiService.search(environment, cleanTargetServerName).subscribe({
       next: (results) => {
         const targetServerResult = results.find(r => 
           r.componentType === 'TargetServer' && 
-          r.name.toLowerCase() === targetServerName.toLowerCase()
+          r.name.toLowerCase() === cleanTargetServerName.toLowerCase()
         );
         
         if (targetServerResult) {
@@ -81,6 +84,11 @@ export class TargetServerModalComponent implements OnInit, OnDestroy {
 
   closeModal() {
     this.modalService.closeTargetServerModal();
+  }
+
+  get cleanTargetServerName(): string {
+    if (!this.modalData.targetServerName) return '';
+    return this.modalData.targetServerName.replace(/\s*\((default|status)\)\s*$/i, '').trim();
   }
 
   async copyToClipboard() {
@@ -111,7 +119,13 @@ export class TargetServerModalComponent implements OnInit, OnDestroy {
                         result.componentType === 'Product' ? 'PRODUCTO' : 
                         result.componentType === 'TargetServer' ? 'TARGET SERVER' :
                         result.componentType.toUpperCase();
-    let info = `${componentLabel}: ${result.name}\n`;
+    
+    // Para target servers, usar el nombre limpio sin (default) o (status)
+    const displayName = result.componentType === 'TargetServer' ? 
+                       result.name.replace(/\s*\((default|status)\)\s*$/i, '').trim() : 
+                       result.name;
+    
+    let info = `${componentLabel}: ${displayName}\n`;
 
     if (result.componentType === 'TargetServer') {
       info += `\nHost: ${result.details.host || 'N/A'}\n`;
