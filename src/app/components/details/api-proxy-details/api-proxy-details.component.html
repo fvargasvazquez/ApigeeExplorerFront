@@ -1,6 +1,6 @@
 <div class="api-proxy-details">
   <div class="detail-item proxy-environments-section">
-    <span class="label">Ambientes y Endpoints ({{ details?.enrichedProxyEnvironments?.length || 0 }}):</span>
+    <span class="label">Ambientes y Recursos ({{ details?.enrichedProxyEnvironments?.length || 0 }}):</span>
     <div class="proxy-environments-container">
       <div *ngFor="let env of details?.enrichedProxyEnvironments" class="proxy-env-card">
         <div class="proxy-env-header">
@@ -41,10 +41,29 @@
           </div>
         </div>
 
-        <div class="proxy-env-flows" *ngIf="env.flows && env.flows.length > 0">
-          <span class="proxy-env-label">Endpoints ({{ env.flows.length }}):</span>
+        <!-- Recursos normales -->
+        <div class="proxy-env-flows" *ngIf="getNormalFlows(env).length > 0">
+          <span class="proxy-env-label">Recursos ({{ getNormalFlows(env).length }}):</span>
           <div class="proxy-flows-container">
-            <div *ngFor="let flow of env.flows" class="proxy-flow-card">
+            <div *ngFor="let flow of getNormalFlows(env)" class="proxy-flow-card">
+              <div class="proxy-flow-header">
+                <span class="proxy-flow-method" 
+                      [class]="'method-' + flow.method.toLowerCase()"
+                      [class.non-clickable-chip]="disableClicks">
+                  {{ flow.method }}
+                </span>
+                <span class="proxy-flow-path"
+                      [class.non-clickable-chip]="disableClicks">{{ flow.path }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recursos healthcheck -->
+        <div class="proxy-env-flows" *ngIf="getHealthcheckFlows(env).length > 0">
+          <span class="proxy-env-label">Recursos healthcheck ({{ getHealthcheckFlows(env).length }}):</span>
+          <div class="proxy-flows-container">
+            <div *ngFor="let flow of getHealthcheckFlows(env)" class="proxy-flow-card">
               <div class="proxy-flow-header">
                 <span class="proxy-flow-method" 
                       [class]="'method-' + flow.method.toLowerCase()"
@@ -58,8 +77,8 @@
           </div>
         </div>
         
-        <div *ngIf="!env.flows || env.flows.length === 0" class="no-proxy-flows">
-          No hay endpoints configurados
+        <div *ngIf="(!env.flows || env.flows.length === 0)" class="no-proxy-flows">
+          No hay recursos configurados
         </div>
       </div>
       

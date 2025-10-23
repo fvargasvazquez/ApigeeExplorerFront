@@ -60,9 +60,6 @@ export class DeveloperModalComponent implements OnInit, OnDestroy {
     // First try searching for the developer
     this.apiService.search(environment, developerName).subscribe({
       next: (results) => {
-        console.log('Search results for developer:', results);
-        console.log('Looking for developer:', developerName);
-        
         // Try different matching strategies
         let developerResult = results.find(r => 
           r.componentType === 'Developer' && 
@@ -92,20 +89,14 @@ export class DeveloperModalComponent implements OnInit, OnDestroy {
         }
         
         if (developerResult) {
-          console.log('Found developer result:', developerResult);
           this.developerDetails = developerResult.details;
         } else {
-          console.log('No developer found. Available results:');
-          console.log('Component types:', [...new Set(results.map(r => r.componentType))]);
-          console.log('Names:', results.map(r => r.name));
-          
           // Create a mock developer details if we can't find the actual developer
           this.developerDetails = {
             fullName: developerName,
             email: 'No disponible',
             enrichedApps: []
           } as SearchResultDetails;
-          console.log('Created mock developer details');
         }
         this.isLoading = false;
       },

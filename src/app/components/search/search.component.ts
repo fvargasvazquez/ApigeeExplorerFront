@@ -189,7 +189,7 @@ export class SearchComponent implements OnInit {
   async copyToClipboard(result: SearchResult) {
     const copyText = this.getResultCopyText(result);
     const success = await this.clipboardService.copyToClipboard(copyText);
-    
+
     if (success) {
       this.clipboardService.showCopySuccess('Información copiada al portapapeles');
     } else {
@@ -200,10 +200,10 @@ export class SearchComponent implements OnInit {
   getResultCopyText(result: SearchResult): string {
     if (!result.details) return `${result.componentType}: ${result.name}`;
 
-    let componentLabel = result.componentType === 'ApiProxy' ? 'API' : 
-                        result.componentType === 'Product' ? 'PRODUCTO' : 
-                        result.componentType === 'TargetServer' ? 'TARGET SERVER' :
-                        result.componentType.toUpperCase();
+    let componentLabel = result.componentType === 'ApiProxy' ? 'API' :
+      result.componentType === 'Product' ? 'PRODUCTO' :
+        result.componentType === 'TargetServer' ? 'TARGET SERVER' :
+          result.componentType.toUpperCase();
     let info = `${componentLabel}: ${result.name}\n`;
 
     switch (result.componentType) {
@@ -227,19 +227,49 @@ export class SearchComponent implements OnInit {
               info += `\n  Target Servers: ${env.targetServers.join(', ')}`;
             }
             if (env.flows && env.flows.length > 0) {
-              info += `\n  Recursos:`;
-              env.flows.forEach(flow => {
-                info += `\n    ${flow.method} ${flow.path}`;
-              });
+              // Separar recursos normales de healthcheck
+              const normalFlows = env.flows.filter((flow: any) =>
+                flow.path?.toLowerCase() !== '/ping' && flow.path?.toLowerCase() !== '/status'
+              );
+              const healthcheckFlows = env.flows.filter((flow: any) =>
+                flow.path?.toLowerCase() === '/ping' || flow.path?.toLowerCase() === '/status'
+              );
+
+              // Mostrar recursos normales primero
+              if (normalFlows.length > 0) {
+                info += `\n  Recursos:`;
+                normalFlows.forEach((flow: any) => {
+                  info += `\n    ${flow.method} ${flow.path}`;
+                });
+              }
+
+              // Mostrar recursos de healthcheck al final
+              if (healthcheckFlows.length > 0) {
+                info += `\n  Recursos healthcheck:`;
+                healthcheckFlows.forEach((flow: any) => {
+                  info += `\n    ${flow.method} ${flow.path}`;
+                });
+              }
             }
 
-            // Agregar curls inmediatamente después de los recursos de cada ambiente
+            // Validación correcta: verificar si existen flows de ping y status en los datos originales
             const basePath = env.basePath || '';
             const baseUrl = this.getBaseUrlForEnvironment(env.ambiente);
-            
-            info += `\n  Curls:`;
-            info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/ping" -H "Authorization: Bearer XXXXX"`;
-            info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/status" -H "Authorization: Bearer XXXXX"`;
+
+            const hasPing = env.flows && env.flows.some((flow: any) => flow.path?.toLowerCase() === '/ping');
+            const hasStatus = env.flows && env.flows.some((flow: any) => flow.path?.toLowerCase() === '/status');
+
+            if (hasPing || hasStatus) {
+              info += `\n  Curls:`;
+
+              if (hasPing) {
+                info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/ping" -H "Authorization: Bearer XXXXX"`;
+              }
+
+              if (hasStatus) {
+                info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/status" -H "Authorization: Bearer XXXXX"`;
+              }
+            }
 
             // Agregar salto de línea entre ambientes (excepto el último)
             if (result.details?.enrichedProxyEnvironments && index < result.details.enrichedProxyEnvironments.length - 1) {
@@ -259,7 +289,7 @@ export class SearchComponent implements OnInit {
         } else {
           info += `\n• Recursos: N/A\n`;
         }
-        
+
         if (result.details.enrichedProxies && result.details.enrichedProxies.length > 0) {
           info += `\n`;
           result.details.enrichedProxies.forEach(proxy => {
@@ -276,7 +306,7 @@ export class SearchComponent implements OnInit {
             info += `\n`; // Salto de línea entre APIs
           });
         }
-        
+
         if (result.details.enrichedProductApps && result.details.enrichedProductApps.length > 0) {
           info += `APPS:\n`;
           result.details.enrichedProductApps.forEach(app => {
@@ -289,7 +319,7 @@ export class SearchComponent implements OnInit {
         info += `\n• Developer: ${result.details.developerName || 'N/A'}\n`;
         info += `Username: ${result.details.username || 'N/A'}\n`;
         info += `Status: ${result.details.status || 'N/A'}\n`;
-        
+
         if (result.details.appProducts && result.details.appProducts.length > 0) {
           // Filtrar productos de monitoreo para las apps también
           const filteredProducts = this.filterMonitoringProducts(result.details.appProducts);
@@ -305,12 +335,12 @@ export class SearchComponent implements OnInit {
       case 'Developer':
         info += `\n• Nombre: ${result.details.fullName || 'N/A'}\n`;
         info += `Email: ${result.details.email || 'N/A'}\n`;
-        
+
         if (result.details.enrichedApps && result.details.enrichedApps.length > 0) {
           info += `\nAPPS:\n`;
           result.details.enrichedApps.forEach(app => {
             info += `• ${app.name} (${app.status})\n`;
-            
+
             // Mostrar productos de cada app si están disponibles
             if (app.products && app.products.length > 0) {
               const filteredProducts = this.filterMonitoringProducts(app.products);
@@ -328,12 +358,12 @@ export class SearchComponent implements OnInit {
 
       case 'TargetServer':
         info += `\nHost: ${result.details.host || 'N/A'}\n`;
-        
+
         // Mostrar ambientes si están disponibles
         if (result.details.environments && result.details.environments.length > 0) {
           info += `Ambientes: ${result.details.environments.join(', ')}\n`;
         }
-        
+
         // Mostrar APIs por ambiente
         if (result.details.apisByEnvironment) {
           Object.entries(result.details.apisByEnvironment).forEach(([env, apis]) => {
@@ -370,10 +400,10 @@ export class SearchComponent implements OnInit {
    */
   private getBaseUrlForEnvironment(ambiente: string): string {
     const ambienteUpper = ambiente.toUpperCase();
-    
+
     // Determinar si es AWS o ONPREMISE basándose en el environment seleccionado
     const isAWS = this.environment?.toUpperCase().includes('AWS') || false;
-    
+
     if (isAWS) {
       // AWS INT
       if (ambienteUpper.includes('INT')) {
@@ -393,7 +423,7 @@ export class SearchComponent implements OnInit {
         return 'https://api.bancoazteca.com';
       }
     }
-    
+
     // Default fallback para ONPREMISE EXT
     return 'https://api.bancoazteca.com';
   }

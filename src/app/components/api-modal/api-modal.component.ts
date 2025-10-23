@@ -134,19 +134,49 @@ export class ApiModalComponent implements OnInit, OnDestroy {
             info += `\n  Target Servers: ${env.targetServers.join(', ')}`;
           }
           if (env.flows && env.flows.length > 0) {
-            info += `\n  Recursos:`;
-            env.flows.forEach((flow: any) => {
-              info += `\n    ${flow.method} ${flow.path}`;
-            });
+            // Separar recursos normales de healthcheck
+            const normalFlows = env.flows.filter((flow: any) => 
+              flow.path?.toLowerCase() !== '/ping' && flow.path?.toLowerCase() !== '/status'
+            );
+            const healthcheckFlows = env.flows.filter((flow: any) => 
+              flow.path?.toLowerCase() === '/ping' || flow.path?.toLowerCase() === '/status'
+            );
+
+            // Mostrar recursos normales primero
+            if (normalFlows.length > 0) {
+              info += `\n  Recursos:`;
+              normalFlows.forEach((flow: any) => {
+                info += `\n    ${flow.method} ${flow.path}`;
+              });
+            }
+
+            // Mostrar recursos de healthcheck al final
+            if (healthcheckFlows.length > 0) {
+              info += `\n  Recursos healthcheck:`;
+              healthcheckFlows.forEach((flow: any) => {
+                info += `\n    ${flow.method} ${flow.path}`;
+              });
+            }
           }
 
-          // Agregar curls inmediatamente después de los recursos de cada ambiente
+          // Validación correcta: verificar si existen flows de ping y status en los datos originales
           const basePath = env.basePath || '';
           const baseUrl = this.getBaseUrlForEnvironment(env.ambiente, environment);
           
-          info += `\n  Curls:`;
-          info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/ping" -H "Authorization: Bearer XXXXX"`;
-          info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/status" -H "Authorization: Bearer XXXXX"`;
+          const hasPing = env.flows && env.flows.some((flow: any) => flow.path?.toLowerCase() === '/ping');
+          const hasStatus = env.flows && env.flows.some((flow: any) => flow.path?.toLowerCase() === '/status');
+          
+          if (hasPing || hasStatus) {
+            info += `\n  Curls:`;
+            
+            if (hasPing) {
+              info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/ping" -H "Authorization: Bearer XXXXX"`;
+            }
+            
+            if (hasStatus) {
+              info += `\n    curl --noproxy "*" -k -X GET "${baseUrl}${basePath}/status" -H "Authorization: Bearer XXXXX"`;
+            }
+          }
           
           if (result.details?.enrichedProxyEnvironments && index < result.details.enrichedProxyEnvironments.length - 1) {
             info += `\n`;

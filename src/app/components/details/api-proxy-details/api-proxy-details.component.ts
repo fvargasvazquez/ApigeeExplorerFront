@@ -78,6 +78,22 @@ export class ApiProxyDetailsComponent {
     });
   }
 
+  getNormalFlows(env: EnrichedEnvironment): any[] {
+    if (!env.flows) return [];
+    return env.flows.filter(flow => 
+      flow.path?.toLowerCase() !== '/ping' && flow.path?.toLowerCase() !== '/status'
+    );
+  }
+
+  getHealthcheckFlows(env: EnrichedEnvironment): any[] {
+    if (!env.flows) return [];
+    return env.flows.filter(flow => 
+      flow.path?.toLowerCase() === '/ping' || flow.path?.toLowerCase() === '/status'
+    );
+  }
+
+
+
   getAllApiProxyInfo(): string {
     if (!this.details) return '';
 
