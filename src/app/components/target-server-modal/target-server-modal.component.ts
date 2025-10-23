@@ -57,8 +57,8 @@ export class TargetServerModalComponent implements OnInit, OnDestroy {
     this.errorMessage = '';
     this.targetServerDetails = undefined;
 
-    // Extraer el nombre real del target server removiendo (default) o (status)
-    const cleanTargetServerName = targetServerName.replace(/\s*\((default|status)\)\s*$/i, '').trim();
+    // Extraer el nombre real del target server removiendo cualquier contenido entre paréntesis al final
+    const cleanTargetServerName = targetServerName.replace(/\s*\([^)]*\)\s*$/i, '').trim();
 
     this.apiService.search(environment, cleanTargetServerName).subscribe({
       next: (results) => {
@@ -88,7 +88,7 @@ export class TargetServerModalComponent implements OnInit, OnDestroy {
 
   get cleanTargetServerName(): string {
     if (!this.modalData.targetServerName) return '';
-    return this.modalData.targetServerName.replace(/\s*\((default|status)\)\s*$/i, '').trim();
+    return this.modalData.targetServerName.replace(/\s*\([^)]*\)\s*$/i, '').trim();
   }
 
   async copyToClipboard() {
@@ -120,9 +120,9 @@ export class TargetServerModalComponent implements OnInit, OnDestroy {
                         result.componentType === 'TargetServer' ? 'TARGET SERVER' :
                         result.componentType.toUpperCase();
     
-    // Para target servers, usar el nombre limpio sin (default) o (status)
+    // Para target servers, usar el nombre limpio sin cualquier contenido entre paréntesis
     const displayName = result.componentType === 'TargetServer' ? 
-                       result.name.replace(/\s*\((default|status)\)\s*$/i, '').trim() : 
+                       result.name.replace(/\s*\([^)]*\)\s*$/i, '').trim() : 
                        result.name;
     
     let info = `${componentLabel}: ${displayName}\n`;
