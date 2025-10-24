@@ -357,7 +357,10 @@ export class SearchComponent implements OnInit {
         break;
 
       case 'TargetServer':
-        info += `\nHost: ${result.details.host || 'N/A'}\n`;
+        const host = result.details.host || 'N/A';
+        const port = result.details.port;
+        const hostWithPort = (port && host !== 'N/A') ? `${host}:${port}` : host;
+        info += `\nHost: ${hostWithPort}\n`;
 
         // Mostrar ambientes si están disponibles
         if (result.details.environments && result.details.environments.length > 0) {

@@ -128,7 +128,10 @@ export class TargetServerModalComponent implements OnInit, OnDestroy {
     let info = `${componentLabel}: ${displayName}\n`;
 
     if (result.componentType === 'TargetServer') {
-      info += `\nHost: ${result.details.host || 'N/A'}\n`;
+      const host = result.details.host || 'N/A';
+      const port = result.details.port;
+      const hostWithPort = (port && host !== 'N/A') ? `${host}:${port}` : host;
+      info += `\nHost: ${hostWithPort}\n`;
       
       if (result.details.environments && result.details.environments.length > 0) {
         info += `Ambientes: ${result.details.environments.join(', ')}\n`;

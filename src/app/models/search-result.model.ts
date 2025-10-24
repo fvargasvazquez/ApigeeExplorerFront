@@ -46,6 +46,7 @@ export interface SearchResultDetails {
   
   // Para Target Servers
   host?: string;
+  port?: number;
   associatedApis?: string[];
   apisByEnvironment?: { [environment: string]: string[] };
 }

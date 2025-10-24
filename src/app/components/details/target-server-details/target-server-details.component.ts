@@ -43,11 +43,25 @@ export class TargetServerDetailsComponent {
     return this.details?.apisByEnvironment?.[environment];
   }
 
+  /**
+   * Get host with port information
+   */
+  getHostWithPort(): string {
+    const host = this.details?.host || 'N/A';
+    const port = this.details?.port;
+    
+    if (port && host !== 'N/A') {
+      return `${host}:${port}`;
+    }
+    
+    return host;
+  }
+
   getAllTargetServerInfo(): string {
     if (!this.details) return '';
 
     let info = `TARGET SERVER: ${this.name || 'N/A'}\n`;
-    info += `Host: ${this.details.host || 'N/A'}\n\n`;
+    info += `Host: ${this.getHostWithPort()}\n\n`;
 
     if (this.details.environments && this.details.environments.length > 0) {
       info += `AMBIENTES (${this.details.environments.length}):\n`;
