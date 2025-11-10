@@ -18,6 +18,8 @@ export class ApiService {
   }
 
   search(environment: string, searchTerm: string): Observable<SearchResult[]> {
-    return this.http.get<SearchResult[]>(`${this.baseUrl}/search/${environment}/${searchTerm}`);
+    return this.http.get<SearchResult[]>(`${this.baseUrl}/search/${environment}`, {
+      params: { searchTerm }
+    });
   }
 }
